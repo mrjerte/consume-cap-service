@@ -1,0 +1,41 @@
+ID: location
+_schema-version: "3.1"
+version: 0.0.1
+parameters:
+  enable-parallel-deployments: true
+modules:
+  - name: location-db
+    type: com.sap.xs.hdi
+    path: gen/db
+    build-parameters:
+      ignore: ["node_modules/"]
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+    requires:
+      - name: HD_LOCATION
+  - name: location-srv
+    type: nodejs
+    path: gen/srv
+    build-parameters:
+      ignore: ["node_modules/"]
+    parameters:
+      memory: 512M
+      disk-quota: 256M
+    provides:
+      - name: srv_api
+        properties:
+          url: ${default-url}
+    requires:
+      - name: HD_LOCATION
+      - name: uaa_dev
+resources:
+  - name: HD_LOCATION
+    type: com.sap.xs.hdi-container
+    properties:
+      hdi-container-name: HD_LOCATION
+    parameters:
+      config:
+        schema: SC_LOCATION
+  - name: uaa_dev
+    type: org.cloudfoundry.existing-service

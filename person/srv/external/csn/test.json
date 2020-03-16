@@ -1,0 +1,21 @@
+{
+    "version": {
+        "csn": "1.0"
+    },
+    "definitions": {
+        "test.Location": {
+            "kind": "entity",
+            "@cds.persistence.skip": true,
+            "elements": {
+                "id": {
+					"key": true,
+					"type": "cds.Integer"
+				  },
+				  "country": {
+					"type": "cds.String",
+					"length": 111
+				  }
+            }
+        }
+    }
+}
